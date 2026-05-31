@@ -1,0 +1,281 @@
+/* ===================================================
+   style.css — Proyecto 3
+   Modo claro/oscuro completo para almacén de personas.
+   Cubre formularios, lista lateral, tabla y validaciones.
+   =================================================== */
+
+:root {
+  --bg:           #f5f7fa;
+  --surface:      #ffffff;
+  --text:         #2c3e50;
+  --text-muted:   #6c757d;
+  --border:       #dde1e7;
+  --nav-bg:       #ffffff;
+  --input-bg:     #ffffff;
+  --input-text:   #2c3e50;
+  --table-stripe: #f0f3f6;
+  --modal-bg:     #ffffff;
+  --list-bg:      #ffffff;
+  --error-color:  #dc3545;
+  --ok-color:     #198754;
+}
+
+[data-theme="dark"] {
+  --bg:           #1a1c2e;
+  --surface:      #24263e;
+  --text:         #dce3f0;
+  --text-muted:   #7a84a0;
+  --border:       #3a3d5c;
+  --nav-bg:       #1e2038;
+  --input-bg:     #2e3050;
+  --input-text:   #dce3f0;
+  --table-stripe: #2a2d4a;
+  --modal-bg:     #24263e;
+  --list-bg:      #24263e;
+  --error-color:  #ff7b7b;
+  --ok-color:     #51cf66;
+}
+
+/* ── Base ── */
+body {
+  background-color: var(--bg) !important;
+  color: var(--text) !important;
+  transition: background-color .3s, color .3s;
+}
+
+/* ── Navbar ── */
+#navbar {
+  background-color: var(--nav-bg) !important;
+  border-bottom: 1px solid var(--border);
+}
+#navbar .navbar-brand,
+#navbar span {
+  color: var(--text) !important;
+}
+
+/* ── Cards ── */
+.card {
+  background-color: var(--surface) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+.card-header {
+  background-color: var(--surface) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+.card-body {
+  background-color: var(--surface) !important;
+  color: var(--text) !important;
+}
+
+/* ── Inputs, selects, textarea ── */
+.form-control,
+.form-select,
+textarea.form-control {
+  background-color: var(--input-bg) !important;
+  color: var(--input-text) !important;
+  border-color: var(--border) !important;
+}
+.form-control:focus,
+.form-select:focus,
+textarea.form-control:focus {
+  background-color: var(--input-bg) !important;
+  color: var(--input-text) !important;
+  border-color: #6c8ef5 !important;
+  box-shadow: 0 0 0 .2rem rgba(108,142,245,.25) !important;
+}
+.form-control:disabled,
+.form-control[readonly] {
+  background-color: var(--input-bg) !important;
+  color: var(--text-muted) !important;
+  opacity: 0.7;
+}
+.form-control::placeholder {
+  color: var(--text-muted) !important;
+  opacity: 1;
+}
+.form-label {
+  color: var(--text) !important;
+}
+[data-theme="dark"] .form-select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23dce3f0' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e") !important;
+}
+
+/* ── Validación visual de campos ── */
+.feedback-error {
+  color: var(--error-color) !important;
+  font-size: .8rem;
+  min-height: 1.1rem;
+  margin-top: .2rem;
+}
+.form-control.campo-invalido,
+.form-select.campo-invalido {
+  border-color: var(--error-color) !important;
+}
+.form-control.campo-valido,
+.form-select.campo-valido {
+  border-color: var(--ok-color) !important;
+}
+
+/* ── Tabla ── */
+.table {
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+}
+.table > :not(caption) > * > * {
+  background-color: var(--surface) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+}
+.table-hover > tbody > tr:hover > * {
+  background-color: var(--table-stripe) !important;
+  color: var(--text) !important;
+}
+thead th {
+  background-color: var(--surface) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+}
+
+/* ── Lista lateral de personas ── */
+.list-group-item {
+  background-color: var(--list-bg) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+}
+.list-group-item strong {
+  color: var(--text) !important;
+}
+.list-group-item .text-muted {
+  color: var(--text-muted) !important;
+}
+.list-group-flush > .list-group-item {
+  border-right: 0;
+  border-left: 0;
+  border-radius: 0;
+}
+
+/* ── Modal ── */
+.modal-content {
+  background-color: var(--modal-bg) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+.modal-header {
+  background-color: var(--modal-bg) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+.modal-body {
+  background-color: var(--modal-bg) !important;
+  color: var(--text) !important;
+}
+.modal-footer {
+  background-color: var(--modal-bg) !important;
+  border-color: var(--border) !important;
+}
+.modal-title {
+  color: var(--text) !important;
+}
+[data-theme="dark"] .btn-close {
+  filter: invert(1) grayscale(100%) brightness(200%) !important;
+}
+
+/* ── Alerts ── */
+[data-theme="dark"] .alert-success {
+  background-color: #1a3a2a !important;
+  border-color: #2d6a4f !important;
+  color: #95d5b2 !important;
+}
+[data-theme="dark"] .alert-danger {
+  background-color: #3a1a1a !important;
+  border-color: #6a2d2d !important;
+  color: #ff7b7b !important;
+}
+[data-theme="dark"] .alert-warning {
+  background-color: #3a2e10 !important;
+  border-color: #6a5010 !important;
+  color: #ffd166 !important;
+}
+[data-theme="dark"] .alert-info {
+  background-color: #0d2a3a !important;
+  border-color: #1a5276 !important;
+  color: #7ecfed !important;
+}
+
+/* ── Texto muted ── */
+.text-muted {
+  color: var(--text-muted) !important;
+}
+
+/* ── Encabezados y textos generales ── */
+h1, h2, h3, h4, h5, h6, p, span, li, td, th, label, small, strong {
+  color: inherit;
+}
+
+/* ── Botones outline ── */
+[data-theme="dark"] .btn-outline-secondary {
+  color: #9aa0b8 !important;
+  border-color: #9aa0b8 !important;
+}
+[data-theme="dark"] .btn-outline-secondary:hover {
+  background-color: #9aa0b8 !important;
+  color: #1a1c2e !important;
+}
+[data-theme="dark"] .btn-outline-primary {
+  color: #6ea8fe !important;
+  border-color: #6ea8fe !important;
+}
+[data-theme="dark"] .btn-outline-primary:hover {
+  background-color: #6ea8fe !important;
+  color: #1a1c2e !important;
+}
+[data-theme="dark"] .btn-outline-warning {
+  color: #ffd166 !important;
+  border-color: #ffd166 !important;
+}
+[data-theme="dark"] .btn-outline-warning:hover {
+  background-color: #ffd166 !important;
+  color: #1a1c2e !important;
+}
+[data-theme="dark"] .btn-outline-danger {
+  color: #ff7b7b !important;
+  border-color: #ff7b7b !important;
+}
+[data-theme="dark"] .btn-outline-danger:hover {
+  background-color: #ff7b7b !important;
+  color: #1a1c2e !important;
+}
+[data-theme="dark"] .btn-outline-success {
+  color: #95d5b2 !important;
+  border-color: #95d5b2 !important;
+}
+[data-theme="dark"] .btn-outline-success:hover {
+  background-color: #95d5b2 !important;
+  color: #1a1c2e !important;
+}
+
+/* ── Badges ── */
+[data-theme="dark"] .badge.bg-secondary {
+  background-color: #3a3d5c !important;
+  color: #dce3f0 !important;
+}
+[data-theme="dark"] .badge.bg-primary {
+  background-color: #2244aa !important;
+  color: #aac8ff !important;
+}
+
+/* ── Título del card de edición ── */
+#tituloFormulario {
+  color: var(--text) !important;
+}
+
+/* ── Scrollbar ── */
+[data-theme="dark"] ::-webkit-scrollbar {
+  background-color: #1a1c2e;
+}
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background-color: #3a3d5c;
+  border-radius: 4px;
+}

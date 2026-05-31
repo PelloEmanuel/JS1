@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Proyecto 2 – Artículos Deportivos</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg px-4" id="navbar">
+    <span class="navbar-brand fw-bold">🏆 Proyecto 2 — Artículos</span>
+    <div class="ms-auto d-flex align-items-center gap-3">
+      <span class="badge bg-secondary" id="contadorNav">0 artículos</span>
+      <button class="btn btn-sm btn-outline-secondary" id="btnTema">🌙 Oscuro</button>
+    </div>
+  </nav>
+
+  <div class="container py-4">
+    <h2 class="mb-1">Registro de Artículos</h2>
+    <p class="text-muted mb-4">
+      Muestra dinámicamente datos de deportes, herramientas y equipamiento.
+      Demuestra <strong>distintos métodos de almacenaje en arrays</strong>.
+    </p>
+
+    <!-- Formulario de carga (8 campos) -->
+    <div class="card shadow-sm mb-4">
+      <div class="card-header fw-bold">Agregar artículo</div>
+      <div class="card-body">
+        <form id="formArticulo" novalidate>
+          <div class="row g-3">
+
+            <!-- Campo 1: Nombre -->
+            <div class="col-md-4">
+              <label class="form-label">Nombre del artículo *</label>
+              <input type="text" id="fNombre" class="form-control" placeholder="Pelota de fútbol" />
+              <div class="text-danger small d-none" id="err_nombre">Campo obligatorio.</div>
+            </div>
+
+            <!-- Campo 2: Categoría -->
+            <div class="col-md-4">
+              <label class="form-label">Categoría *</label>
+              <select id="fCategoria" class="form-select">
+                <option value="">Seleccioná...</option>
+                <option value="Deporte">Deporte</option>
+                <option value="Herramienta">Herramienta</option>
+                <option value="Electrónica">Electrónica</option>
+                <option value="Indumentaria">Indumentaria</option>
+                <option value="Otro">Otro</option>
+              </select>
+              <div class="text-danger small d-none" id="err_categoria">Seleccioná una categoría.</div>
+            </div>
+
+            <!-- Campo 3: Precio -->
+            <div class="col-md-4">
+              <label class="form-label">Precio ($) *</label>
+              <input type="number" id="fPrecio" class="form-control" placeholder="1500" min="0" />
+              <div class="text-danger small d-none" id="err_precio">Precio inválido.</div>
+            </div>
+
+            <!-- Campo 4: Marca -->
+            <div class="col-md-4">
+              <label class="form-label">Marca</label>
+              <input type="text" id="fMarca" class="form-control" placeholder="Nike, Stanley..." />
+            </div>
+
+            <!-- Campo 5: Stock -->
+            <div class="col-md-4">
+              <label class="form-label">Stock (unidades) *</label>
+              <input type="number" id="fStock" class="form-control" placeholder="10" min="0" />
+              <div class="text-danger small d-none" id="err_stock">Stock inválido.</div>
+            </div>
+
+            <!-- Campo 6: Color -->
+            <div class="col-md-4">
+              <label class="form-label">Color</label>
+              <input type="text" id="fColor" class="form-control" placeholder="Rojo, Azul..." />
+            </div>
+
+            <!-- Campo 7: Peso (kg) -->
+            <div class="col-md-4">
+              <label class="form-label">Peso (kg)</label>
+              <input type="number" id="fPeso" class="form-control" step="0.1" placeholder="0.5" min="0" />
+            </div>
+
+            <!-- Campo 8: Descripción -->
+            <div class="col-md-8">
+              <label class="form-label">Descripción</label>
+              <textarea id="fDescripcion" class="form-control" rows="2"
+                placeholder="Detalles del artículo..."></textarea>
+            </div>
+
+            <!-- Campo extra: Método de almacenaje demostrativo -->
+            <div class="col-md-4">
+              <label class="form-label">Método de almacenaje</label>
+              <select id="fMetodo" class="form-select">
+                <option value="push">push()</option>
+                <option value="unshift">unshift()</option>
+                <option value="splice">splice()</option>
+                <option value="concat">concat()</option>
+              </select>
+            </div>
+
+            <div class="col-12 d-flex gap-2 flex-wrap">
+              <button type="submit" class="btn btn-primary">Agregar artículo</button>
+              <button type="button" class="btn btn-outline-secondary" id="btnLimpiar">Limpiar</button>
+              <button type="button" class="btn btn-outline-success ms-auto" id="btnDescargar">⬇ Descargar .txt</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Barra de búsqueda/filtro en tiempo real -->
+    <div class="mb-3">
+      <input type="text" id="buscador" class="form-control"
+        placeholder="🔍 Filtrar por nombre o categoría..." />
+    </div>
+
+    <!-- Estadísticas dinámicas -->
+    <div class="row g-3 mb-4" id="statsRow">
+      <div class="col-6 col-md-3">
+        <div class="card text-center py-2">
+          <div class="fs-4 fw-bold text-primary" id="statTotal">0</div>
+          <div class="small text-muted">Total artículos</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="card text-center py-2">
+          <div class="fs-4 fw-bold text-success" id="statPrecioMax">$0</div>
+          <div class="small text-muted">Precio más alto</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="card text-center py-2">
+          <div class="fs-4 fw-bold text-warning" id="statPrecioMin">$0</div>
+          <div class="small text-muted">Precio más bajo</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="card text-center py-2">
+          <div class="fs-4 fw-bold text-info" id="statStock">0</div>
+          <div class="small text-muted">Stock total</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mensaje de estado -->
+    <div id="msgEstado" class="alert d-none" role="alert"></div>
+
+    <!-- Tabla de artículos -->
+    <div class="card shadow-sm">
+      <div class="card-header fw-bold">
+        Lista de artículos (<span id="totalLista">0</span>)
+      </div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0" id="tablaArticulos">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th>Precio</th>
+                <th>Marca</th>
+                <th>Stock</th>
+                <th>Color</th>
+                <th>Peso</th>
+                <th>Método</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="bodyArticulos">
+              <tr id="filaVacia">
+                <td colspan="10" class="text-center text-muted py-3">Sin artículos registrados.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal edición -->
+    <div class="modal fade" id="modalEditar" tabindex="-1">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Editar Artículo</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" id="editId" />
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Nombre</label>
+                <input type="text" id="editNombre" class="form-control" />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Categoría</label>
+                <select id="editCategoria" class="form-select">
+                  <option value="Deporte">Deporte</option>
+                  <option value="Herramienta">Herramienta</option>
+                  <option value="Electrónica">Electrónica</option>
+                  <option value="Indumentaria">Indumentaria</option>
+                  <option value="Otro">Otro</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Precio ($)</label>
+                <input type="number" id="editPrecio" class="form-control" />
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Marca</label>
+                <input type="text" id="editMarca" class="form-control" />
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Stock</label>
+                <input type="number" id="editStock" class="form-control" />
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Color</label>
+                <input type="text" id="editColor" class="form-control" />
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Peso (kg)</label>
+                <input type="number" id="editPeso" class="form-control" step="0.1" />
+              </div>
+              <div class="col-12">
+                <label class="form-label">Descripción</label>
+                <textarea id="editDescripcion" class="form-control" rows="2"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button class="btn btn-primary" id="btnConfirmarEdicion">Guardar cambios</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="module" src="../modules/main.js"></script>
+</body>
+</html>
