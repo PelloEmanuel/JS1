@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es" data-tema="claro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Almacén de personas</title>
+  <link rel="stylesheet" href="/styles/style.css">
+</head>
+<body>
+  <header class="barra">
+    <h1>Almacén de personas</h1>
+    <button id="botonTema" class="btn btn-sec" type="button">Modo oscuro</button>
+  </header>
+
+  <main class="grilla grilla-2">
+    <section class="tarjeta">
+      <h2>Cargar persona</h2>
+      <form id="formulario" novalidate>
+        <div class="dos" id="camposNuevo"></div>
+        <button class="btn" type="submit">Guardar persona</button>
+      </form>
+      <p id="aviso" class="aviso"></p>
+    </section>
+
+    <section class="tarjeta">
+      <h2>Personas guardadas (<span id="contador">0</span>)</h2>
+      <p class="ayuda">Tocá un nombre para ver sus datos.</p>
+      <ul id="listaPersonas" class="lista"></ul>
+    </section>
+  </main>
+
+  <!-- Ventana superpuesta: ver y editar -->
+  <div id="fondoModal" class="fondo-modal" hidden>
+    <div class="modal">
+      <h2 id="tituloModal">Datos de la persona</h2>
+      <form id="formularioEdicion" novalidate>
+        <div class="dos" id="camposEdicion"></div>
+        <p id="avisoModal" class="aviso"></p>
+        <div class="modal-botones" id="botonesVer">
+          <button type="button" class="btn" id="botonEditarModal">Editar</button>
+          <button type="button" class="btn btn-sec" id="botonCerrarModal">Cerrar</button>
+        </div>
+        <div class="modal-botones" id="botonesEditar" hidden>
+          <button type="submit" class="btn">Guardar cambios</button>
+          <button type="button" class="btn btn-sec" id="botonCancelarEdicion">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Ventana superpuesta: confirmar eliminación -->
+  <div id="fondoConfirmar" class="fondo-modal" hidden>
+    <div class="modal modal-chico">
+      <h2>Eliminar persona</h2>
+      <p id="textoConfirmar"></p>
+      <div class="modal-botones">
+        <button type="button" class="btn btn-peligro" id="botonEliminar">Eliminar</button>
+        <button type="button" class="btn btn-sec" id="botonConservar">Conservar</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toasts" class="toasts"></div>
+  <script src="/modules/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es" data-tema="claro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stock de electrónica</title>
+  <link rel="stylesheet" href="/styles/style.css">
+</head>
+<body>
+  <header class="barra">
+    <h1>Stock de electrónica</h1>
+    <button id="botonTema" class="btn btn-sec" type="button">Modo oscuro</button>
+  </header>
+
+  <main class="grilla grilla-lado">
+    <div class="columna">
+      <section class="tarjeta">
+        <h2>Nuevo producto</h2>
+        <form id="formulario" novalidate>
+          <div class="dos">
+            <div class="campo"><label for="categoria">Categoría</label>
+              <select id="categoria" name="categoria">
+                <option value="">Elegí...</option>
+                <option>Componentes de PC</option><option>Consolas</option><option>PC armadas</option>
+                <option>Arduino y chips</option><option>Periféricos</option><option>Almacenamiento</option><option>Redes</option>
+              </select></div>
+            <div class="campo"><label for="producto">Producto</label><input id="producto" name="producto" type="text" placeholder="Ej: RTX 4060, Arduino Uno"></div>
+            <div class="campo"><label for="marca">Marca</label><input id="marca" name="marca" type="text"></div>
+            <div class="campo"><label for="precio">Precio ($)</label><input id="precio" name="precio" type="number" step="0.01"></div>
+            <div class="campo"><label for="stock">Stock (unidades)</label><input id="stock" name="stock" type="number"></div>
+            <div class="campo"><label for="fecha">Fecha de ingreso</label><input id="fecha" name="fecha" type="date"></div>
+            <div class="campo"><label for="estado">Estado</label>
+              <select id="estado" name="estado"><option value="">Elegí...</option><option>Nuevo</option><option>Usado</option><option>Reacondicionado</option></select></div>
+            <div class="campo"><label for="observaciones">Observaciones (opcional)</label><input id="observaciones" name="observaciones" type="text" maxlength="100"></div>
+          </div>
+          <div class="campo">
+            <label for="forma">¿Cómo se guarda en el array?</label>
+            <select id="forma" name="forma">
+              <option value="push">push (al final)</option>
+              <option value="unshift">unshift (al principio)</option>
+              <option value="splice">splice (en una posición)</option>
+              <option value="concat">concat (array nuevo)</option>
+              <option value="spread">spread ... (array nuevo)</option>
+            </select>
+          </div>
+          <p id="descripcionForma" class="ayuda"></p>
+          <div class="campo" id="campoPosicion" hidden>
+            <label for="posicion">Posición</label>
+            <input id="posicion" name="posicion" type="number" min="1">
+          </div>
+          <button class="btn" type="submit">Guardar producto</button>
+        </form>
+        <p id="aviso" class="aviso"></p>
+      </section>
+    </div>
+
+    <section class="tarjeta">
+      <div class="cabecera-lista">
+        <h2>Productos en stock (<span id="contador">0</span>)</h2>
+        <button id="botonVaciar" class="btn btn-peligro btn-chico-sec" type="button">Vaciar lista</button>
+      </div>
+      <div class="tabla-caja">
+        <table>
+          <thead><tr><th>#</th><th>Categoría</th><th>Producto</th><th>Marca</th><th>Precio</th><th>Stock</th><th>Ingreso</th><th>Estado</th><th>Observaciones</th><th>Guardado con</th><th>Acciones</th></tr></thead>
+          <tbody id="cuerpoTabla"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Ventana superpuesta: modificar producto -->
+  <div id="fondoEdicion" class="fondo-modal" hidden>
+    <div class="modal">
+      <h2>Modificar producto</h2>
+      <form id="formularioEdicion" novalidate>
+        <div class="dos">
+          <div class="campo"><label for="e-categoria">Categoría</label>
+            <select id="e-categoria" name="categoria">
+              <option value="">Elegí...</option>
+              <option>Componentes de PC</option><option>Consolas</option><option>PC armadas</option>
+              <option>Arduino y chips</option><option>Periféricos</option><option>Almacenamiento</option><option>Redes</option>
+            </select></div>
+          <div class="campo"><label for="e-producto">Producto</label><input id="e-producto" name="producto" type="text"></div>
+          <div class="campo"><label for="e-marca">Marca</label><input id="e-marca" name="marca" type="text"></div>
+          <div class="campo"><label for="e-precio">Precio ($)</label><input id="e-precio" name="precio" type="number" step="0.01"></div>
+          <div class="campo"><label for="e-stock">Stock (unidades)</label><input id="e-stock" name="stock" type="number"></div>
+          <div class="campo"><label for="e-fecha">Fecha de ingreso</label><input id="e-fecha" name="fecha" type="date"></div>
+          <div class="campo"><label for="e-estado">Estado</label>
+            <select id="e-estado" name="estado"><option value="">Elegí...</option><option>Nuevo</option><option>Usado</option><option>Reacondicionado</option></select></div>
+          <div class="campo"><label for="e-observaciones">Observaciones (opcional)</label><input id="e-observaciones" name="observaciones" type="text" maxlength="100"></div>
+        </div>
+        <p id="avisoModal" class="aviso"></p>
+        <div class="modal-botones">
+          <button type="submit" class="btn">Guardar cambios</button>
+          <button type="button" class="btn btn-sec" id="botonCancelarEdicion">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Ventana superpuesta: confirmación -->
+  <div id="fondoConfirmar" class="fondo-modal" hidden>
+    <div class="modal modal-chico">
+      <h2 id="tituloConfirmar"></h2>
+      <p id="textoConfirmar"></p>
+      <div class="modal-botones">
+        <button type="button" class="btn btn-peligro" id="botonConfirmar">Eliminar</button>
+        <button type="button" class="btn btn-sec" id="botonConservar">Conservar</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toasts" class="toasts"></div>
+  <script src="/modules/script.js"></script>
+</body>
+</html>

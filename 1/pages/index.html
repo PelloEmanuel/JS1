@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es" data-tema="claro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lectura de formularios</title>
+  <link rel="stylesheet" href="/styles/style.css">
+</head>
+<body>
+  <header class="barra">
+    <h1>Usuarios: 3 formas de leer un formulario</h1>
+    <button id="botonTema" class="btn btn-sec" type="button">Modo oscuro</button>
+  </header>
+
+  <main class="grilla grilla-lado">
+    <div class="columna">
+      <section class="tarjeta">
+        <h2>Nuevo usuario</h2>
+        <form id="formulario" name="formulario" novalidate>
+          <div class="dos">
+            <div class="campo"><label for="nombre">Nombre</label><input id="nombre" name="nombre" type="text"></div>
+            <div class="campo"><label for="apellido">Apellido</label><input id="apellido" name="apellido" type="text"></div>
+            <div class="campo"><label for="correo">Correo</label><input id="correo" name="correo" type="text"></div>
+            <div class="campo"><label for="edad">Edad</label><input id="edad" name="edad" type="number"></div>
+          </div>
+          <div class="campo">
+            <label for="metodo">¿Cómo querés leer el formulario?</label>
+            <select id="metodo" name="metodo">
+              <option value="id">1) Por id (getElementById)</option>
+              <option value="elements">2) Por elements del formulario</option>
+              <option value="formdata">3) Con FormData</option>
+            </select>
+          </div>
+          <button class="btn" type="submit">Agregar usuario</button>
+        </form>
+        <p id="aviso" class="aviso"></p>
+      </section>
+
+      <section class="tarjeta">
+        <h2>Las 3 formas de leer</h2>
+        <p class="ayuda">Las tres sacan el mismo dato; cambia cómo lo buscan:</p>
+        <ul class="lista">
+          <li><span><b>1) Por id:</b> <code>document.getElementById('nombre').value</code></span></li>
+          <li><span><b>2) Por elements:</b> <code>formulario.elements['nombre'].value</code></span></li>
+          <li><span><b>3) FormData:</b> <code>new FormData(formulario).get('nombre')</code></span></li>
+        </ul>
+      </section>
+    </div>
+
+    <section class="tarjeta">
+      <div class="cabecera-lista">
+        <h2>Usuarios cargados (<span id="contador">0</span>)</h2>
+        <button id="botonVaciar" class="btn btn-peligro btn-chico-sec" type="button">Vaciar lista</button>
+      </div>
+      <div class="tabla-caja">
+        <table>
+          <thead><tr><th>#</th><th>Nombre</th><th>Apellido</th><th>Correo</th><th>Edad</th><th>Lectura usada</th><th>Acciones</th></tr></thead>
+          <tbody id="cuerpoTabla"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Ventana superpuesta: editar usuario -->
+  <div id="fondoEdicion" class="fondo-modal" hidden>
+    <div class="modal modal-chico">
+      <h2>Editar usuario</h2>
+      <form id="formularioEdicion" novalidate>
+        <div class="campo"><label for="e-nombre">Nombre</label><input id="e-nombre" name="nombre" type="text"></div>
+        <div class="campo"><label for="e-apellido">Apellido</label><input id="e-apellido" name="apellido" type="text"></div>
+        <div class="campo"><label for="e-correo">Correo</label><input id="e-correo" name="correo" type="text"></div>
+        <div class="campo"><label for="e-edad">Edad</label><input id="e-edad" name="edad" type="number"></div>
+        <p id="avisoModal" class="aviso"></p>
+        <div class="modal-botones">
+          <button type="submit" class="btn">Guardar cambios</button>
+          <button type="button" class="btn btn-sec" id="botonCancelarEdicion">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Ventana superpuesta: confirmación -->
+  <div id="fondoConfirmar" class="fondo-modal" hidden>
+    <div class="modal modal-chico">
+      <h2 id="tituloConfirmar"></h2>
+      <p id="textoConfirmar"></p>
+      <div class="modal-botones">
+        <button type="button" class="btn btn-peligro" id="botonConfirmar">Eliminar</button>
+        <button type="button" class="btn btn-sec" id="botonConservar">Conservar</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toasts" class="toasts"></div>
+  <script src="/modules/script.js"></script>
+</body>
+</html>
